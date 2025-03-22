@@ -1,13 +1,44 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+
+import { AnimatePresence } from 'framer-motion';
+import { BeautifyProvider, useBeautifyMode } from '@/hooks/useBeautifyMode';
+import ToggleSwitch from '@/components/ToggleSwitch';
+import MinimalView from '@/components/MinimalView';
+import BeautifiedView from '@/components/BeautifiedView';
+import AnimatedTransition from '@/components/AnimatedTransition';
+
+const IndexContent = () => {
+  const { isBeautified } = useBeautifyMode();
+
+  return (
+    <div className="min-h-screen">
+      <header className="fixed top-0 right-0 p-6 z-40">
+        <ToggleSwitch />
+      </header>
+      
+      <main>
+        <AnimatedTransition />
+        
+        <AnimatePresence mode="wait">
+          {!isBeautified ? (
+            <MinimalView key="minimal" />
+          ) : (
+            <BeautifiedView key="beautified" />
+          )}
+        </AnimatePresence>
+      </main>
+      
+      <footer className="text-center p-6 text-xs text-muted-foreground">
+        &copy; {new Date().getFullYear()} — UX/UI Designer Portfolio
+      </footer>
+    </div>
+  );
+};
 
 const Index = () => {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-gray-600">Start building your amazing project here!</p>
-      </div>
-    </div>
+    <BeautifyProvider>
+      <IndexContent />
+    </BeautifyProvider>
   );
 };
 
